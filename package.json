@@ -1,0 +1,46 @@
+{
+  "name": "grammy-bot-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "type": "module",
+  "lint-staged": {
+    "*.ts": "xo"
+  },
+  "xo": {
+    "extends": "@onmoon",
+    "prettier": true
+  },
+  "prettier": "@onmoon/prettier-config",
+  "scripts": {
+    "generate-env": "cat .env.yaml | sed \"s#: #=#g\" > .env",
+    "build": "tsc && cp package*.json dist",
+    "start": "env-cmd nodemon -d 0.5 -w .env -w src -x 'ts-node --transpile-only --esm' src/dev.ts",
+    "lint": "xo",
+    "lint:fix": "xo --fix",
+    "webhook": "env-cmd sh ./setwebhook.sh",
+    "gtest": "env-cmd  npx @google-cloud/functions-framework --target=handleTelegramWebhook",
+    "deploy": "env-cmd sh ./deploy.sh"
+  },
+  "author": "Nikita Podelenko",
+  "license": "Unlicense",
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.3.0",
+    "express": "^4.18.2",
+    "googleapis": "^126.0.1",
+    "grammy": "^1.18.1",
+    "ioredis": "^5.3.2"
+  },
+  "devDependencies": {
+    "@onmoon/eslint-config": "^1.0.12",
+    "@onmoon/prettier-config": "^1.0.2",
+    "@onmoon/tsconfigs": "^2.0.2",
+    "env-cmd": "^10.1.0",
+    "lint-staged": "^13.2.0",
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.7",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
